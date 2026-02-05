@@ -6,6 +6,7 @@
 
 #include <QMainWindow>
 #include <QApplication>
+#include <QPlainTextEdit>
 #include <QPushButton>
 #include <QVBoxLayout>
 
@@ -17,6 +18,7 @@ public:
 
     explicit MainWindow(QWidget *parent = nullptr);
 
+    // declaring buttons:
     QPushButton *setConnectionButton = nullptr;
     QPushButton *eraseMemoryButton   = nullptr;
     QPushButton *writeMemoryButton   = nullptr;
@@ -28,7 +30,14 @@ private:
     void setupUi();
     void setupConnections();
 
-    void setupLayouts(QWidget *widget);
+    void setupLayouts(QWidget *parentWidget);
+
+    void setupButtonLayout();
+    void setupConsoleLayout();
+
+    QHBoxLayout *mainLayout = nullptr;
+    QVBoxLayout *buttonLayout = nullptr;
+    QVBoxLayout *consoleLayout = nullptr;
 
 };
 

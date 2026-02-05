@@ -20,9 +20,16 @@ void MainWindow::setupUi() {
     QWidget *central = new QWidget(this);
     setCentralWidget(central);
 
-    setupLayouts(central);
-
     setFixedSize(600, 400);
+
+    mainLayout = new QHBoxLayout(central);
+
+    setupButtonLayout();
+    setupConsoleLayout();
+
+    mainLayout -> addLayout(buttonLayout);
+    mainLayout -> addLayout(consoleLayout);
+
 }
 
 /**
@@ -35,11 +42,13 @@ void MainWindow::setupConnections() {
 
 }
 
-void MainWindow::setupLayouts(QWidget *widget) {
+/**
+ * @brief MainWindow::setupButtonLayout
+ * @param
+ */
+void MainWindow::setupButtonLayout() {
 
-    QVBoxLayout *buttonsLayout = new QVBoxLayout(widget);
-
-    buttonsLayout -> setContentsMargins(10, 10, 420, 10);
+    buttonLayout = new QVBoxLayout();
 
     // implememnting buttons of main window:
     setConnectionButton = new QPushButton(CONNECT_BUTTON_LABEL);
@@ -49,10 +58,28 @@ void MainWindow::setupLayouts(QWidget *widget) {
     closeButton         = new QPushButton(CLOSE_BUTTON_LABEL);
 
     // adding buttons to layout:
-    buttonsLayout -> addWidget(setConnectionButton);
-    buttonsLayout -> addWidget(setCoeffsButton);
-    buttonsLayout -> addWidget(writeMemoryButton);
-    buttonsLayout -> addWidget(eraseMemoryButton);
-    buttonsLayout -> addWidget(closeButton);
+    buttonLayout -> addWidget(setConnectionButton);
+    buttonLayout -> addWidget(setCoeffsButton);
+    buttonLayout -> addWidget(writeMemoryButton);
+    buttonLayout -> addWidget(eraseMemoryButton);
+    buttonLayout -> addWidget(closeButton);
 
 }
+
+/**
+ * @brief MainWindow::setupConsoleLayout
+ * @param parentWidget
+ */
+void MainWindow::setupConsoleLayout() {
+
+    consoleLayout = new QVBoxLayout();
+
+    QPlainTextEdit *console = new QPlainTextEdit();
+
+    console -> setReadOnly(true);
+
+    consoleLayout -> addWidget(console);
+
+}
+
+
