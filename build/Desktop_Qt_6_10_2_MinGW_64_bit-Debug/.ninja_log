@@ -1,0 +1,11 @@
+# ninja log v6
+27	121	7920889159589652	acoustic-calibrator-terminal_autogen/timestamp	2bd8f89b2bac2faf
+121	1858	7920889160525492	CMakeFiles/acoustic-calibrator-terminal.dir/mainwindow/mainwindow.cpp.obj	23ce5eb81d186a95
+27	121	7920889159589652	acoustic-calibrator-terminal_autogen/mocs_compilation.cpp	2bd8f89b2bac2faf
+27	121	7920889159589652	C:/Users/Iskander/Documents/NTM/acoustic-calibrator-terminal/build/Desktop_Qt_6_10_2_MinGW_64_bit-Debug/acoustic-calibrator-terminal_autogen/timestamp	2bd8f89b2bac2faf
+27	121	7920889159589652	C:/Users/Iskander/Documents/NTM/acoustic-calibrator-terminal/build/Desktop_Qt_6_10_2_MinGW_64_bit-Debug/acoustic-calibrator-terminal_autogen/mocs_compilation.cpp	2bd8f89b2bac2faf
+457	2461	7920885942112032	CMakeFiles/acoustic-calibrator-terminal.dir/main.cpp.obj	d02a8e1fa48140b3
+455	2494	7920885942062541	CMakeFiles/acoustic-calibrator-terminal.dir/acoustic-calibrator-terminal_autogen/mocs_compilation.cpp.obj	15525b7ab6ebde64
+1858	1986	7920889177898809	acoustic-calibrator-terminal.exe	9f21873409a88a9
+3	568	7920770054121480	build.ninja	646c72041d450ecc
+138	1101	7920778973538144	CMakeFiles/acoustic-calibrator-terminal.dir/com_port_driver/com_port_driver.cpp.obj	8d812db8f314fa48

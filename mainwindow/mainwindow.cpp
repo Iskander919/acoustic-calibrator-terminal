@@ -10,6 +10,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow{parent} {
     setupUi();
     setupConnections();
 
+    serial = new QSerialPort();
+
+    updatePortsList();
+
 }
 
 /**
@@ -37,9 +41,14 @@ void MainWindow::setupUi() {
  */
 void MainWindow::setupConnections() {
 
+    // connecting Close button
     connect(closeButton, &QPushButton::clicked, this, &QWidget::close);
 
 
+    /*
+    // connecting timer timeout for updating available ports:
+    connect(timer, &QTimer::timeout, this, &MainWindow::updatePortsList);
+    */
 }
 
 /**
@@ -56,6 +65,10 @@ void MainWindow::setupButtonLayout() {
     writeMemoryButton   = new QPushButton(WRITE_MEM_BUTTON_LABEL);
     eraseMemoryButton   = new QPushButton(ERASE_MEM_BUTTON_LABEL);
     closeButton         = new QPushButton(CLOSE_BUTTON_LABEL);
+
+    // implementing drop-down menu for COM-port selection
+    comPortSelector = new QComboBox();
+    buttonLayout -> addWidget(comPortSelector);
 
     // adding buttons to layout:
     buttonLayout -> addWidget(setConnectionButton);
@@ -82,4 +95,27 @@ void MainWindow::setupConsoleLayout() {
 
 }
 
+/**
+ * @brief MainWindow::updatePortsList
+ */
+void MainWindow::updatePortsList() {
 
+    // adding available COM ports to COM port selector
+
+    foreach(const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
+
+        comPortSelector -> addItem(info.portName());
+
+    }
+
+}
+
+/**
+ * @brief MainWindow::setupTimer
+ */
+void MainWindow::setupTimer() {
+
+    timer = new QTimer(this);
+    timer->start(1000);
+
+}

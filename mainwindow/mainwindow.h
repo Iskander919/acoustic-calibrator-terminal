@@ -6,8 +6,14 @@
 
 #include <QMainWindow>
 #include <QApplication>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QList>
 #include <QPlainTextEdit>
 #include <QPushButton>
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QTimer>
 #include <QVBoxLayout>
 
 class MainWindow : public QMainWindow {
@@ -25,6 +31,8 @@ public:
     QPushButton *setCoeffsButton     = nullptr;
     QPushButton *closeButton         = nullptr;
 
+    QComboBox *comPortSelector       = nullptr;
+
 private:
 
     void setupUi();
@@ -35,9 +43,29 @@ private:
     void setupButtonLayout();
     void setupConsoleLayout();
 
+    void updatePortsList();
+
+    void setupTimer();
+
+    // defining layouts:
     QHBoxLayout *mainLayout = nullptr;
     QVBoxLayout *buttonLayout = nullptr;
     QVBoxLayout *consoleLayout = nullptr;
+
+    // defining line edits:
+    QLineEdit *correctionEdit = nullptr;
+    QLineEdit *pCoeffEdit     = nullptr;
+    QLineEdit *iCoeffEdit     = nullptr;
+    QLineEdit *dCoeffEdit     = nullptr;
+
+
+    // defining serial port object:
+    QSerialPort *serial = nullptr;
+    QTimer      *timer  = nullptr;
+
+    // defining list of available ports:
+    QList<QSerialPortInfo> portsList;
+
 
 };
 
