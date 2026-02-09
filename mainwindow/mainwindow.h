@@ -7,6 +7,7 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <QComboBox>
+#include <QLabel>
 #include <QLineEdit>
 #include <QList>
 #include <QPlainTextEdit>

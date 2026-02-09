@@ -91,6 +91,31 @@ void MainWindow::setupConsoleLayout() {
 
     console -> setReadOnly(true);
 
+    correctionEdit = new QLineEdit();
+    pCoeffEdit     = new QLineEdit();
+    iCoeffEdit     = new QLineEdit();
+    dCoeffEdit     = new QLineEdit();
+
+    // defining labels for line edits
+    QLabel *correctionEditLabel = new QLabel(CORRECTION_EDIT_LABEL);
+    QLabel *pEditLabel = new QLabel(P_EDIT_LABEL);
+    QLabel *iEditLabel = new QLabel(I_EDIT_LABEL);
+    QLabel *dEditLabel = new QLabel(D_EDIT_LABEL);
+
+    // adding widgets to console layout
+    consoleLayout -> addWidget(correctionEditLabel);
+    consoleLayout -> addWidget(correctionEdit);
+
+    consoleLayout -> addWidget(pEditLabel);
+    consoleLayout -> addWidget(pCoeffEdit);
+
+    consoleLayout -> addWidget(iEditLabel);
+    consoleLayout -> addWidget(iCoeffEdit);
+
+    consoleLayout -> addWidget(dEditLabel);
+    consoleLayout -> addWidget(dCoeffEdit);
+
+    // adding console
     consoleLayout -> addWidget(console);
 
 }
@@ -116,6 +141,6 @@ void MainWindow::updatePortsList() {
 void MainWindow::setupTimer() {
 
     timer = new QTimer(this);
-    timer->start(1000);
+    timer -> start(1000);
 
 }
