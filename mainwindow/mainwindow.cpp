@@ -77,6 +77,10 @@ void MainWindow::setupButtonLayout() {
     buttonLayout -> addWidget(eraseMemoryButton);
     buttonLayout -> addWidget(closeButton);
 
+    setCoeffsButton   -> setEnabled(false);
+    writeMemoryButton -> setEnabled(false);
+    eraseMemoryButton -> setEnabled(false);
+
 }
 
 /**

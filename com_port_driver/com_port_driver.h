@@ -3,7 +3,10 @@
 
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QIODevice>
 #include <QList>
+
+#define BAUD_RATE QSerialPort::BaudRate::Baud115200
 
 class SerialDriver {
 
@@ -11,7 +14,11 @@ public:
 
     SerialDriver();
 
-    void openSerialPort();
+    void openSerialPort(const QString &portName);
+
+private:
+
+    QSerialPort *SerialPortObj;
 
 };
 
