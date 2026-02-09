@@ -8,6 +8,11 @@
 #define ERASE_MEM_BUTTON_LABEL  "Стереть память"
 #define CLOSE_BUTTON_LABEL      "Закрыть"
 
+#define CORRECTION_EDIT_LABEL   "Уровень"
+#define P_EDIT_LABEL            "P"
+#define I_EDIT_LABEL            "I"
+#define D_EDIT_LABEL            "D"
+
 // dimensions:
 #define MAIN_WINDOW_HEIGHT 400
 #define MAIN_WINDOW_WIDTH  600

@@ -43,6 +43,8 @@ private:
     void setupButtonLayout();
     void setupConsoleLayout();
 
+    void setupLineEdits();
+
     void updatePortsList();
 
     void setupTimer();
