@@ -1,6 +1,7 @@
 #ifndef COM_PORT_DRIVER_H
 #define COM_PORT_DRIVER_H
 
+#include <QDebug>
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QIODevice>
