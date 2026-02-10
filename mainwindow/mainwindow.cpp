@@ -165,6 +165,14 @@ void MainWindow::connectClicked() {
     }
 
     //---------------------------------------------------------------------------//
+    std::array<uint8_t, 20> combined = serialDriver.combineArray(0.00001, 0.0000015, 0.00001, 0.000245, 3500);
+    for(int i = 0; i < 20; i++) {
+
+        std::cout << std::hex << std::setw(3) << static_cast<int>(combined[i]);
+
+    }
+
+    std::cout << std::endl;
     //---------------------------------------------------------------------------//
 
 }

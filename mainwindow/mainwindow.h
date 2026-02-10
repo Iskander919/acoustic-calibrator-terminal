@@ -4,6 +4,9 @@
 #include "main_window_labels.h"
 #include "com_port_driver.h"
 
+#include <iomanip>
+#include <iostream>
+
 
 #include <QMainWindow>
 #include <QApplication>

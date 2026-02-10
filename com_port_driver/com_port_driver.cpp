@@ -73,31 +73,31 @@ std::array<uint8_t, 20> SerialDriver::combineArray(const float pCoeff, const flo
     // filling result:
     for(int i = 0; i < 4; i++) {
 
-        result[i] = pBytes[i];
+        result[3 - i] = pBytes[i];
 
     }
 
     for(int i = 0; i < 4; i++) {
 
-        result[i + 4] = iBytes[i];
+        result[7 - i] = iBytes[i];
 
     }
 
     for(int i = 0; i < 4; i++) {
 
-        result[i + 8] = dBytes[i];
+        result[11 - i] = dBytes[i];
 
     }
 
     for(int i = 0; i < 4; i++) {
 
-        result[i + 12] = corrBytes[i];
+        result[15 - i] = corrBytes[i];
 
     }
 
     for(int i = 0; i < 4; i++) {
 
-        result[i + 16] = refBytes[i];
+        result[19 - i] = refBytes[i];
 
     }
 
