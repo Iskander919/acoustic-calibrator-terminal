@@ -19,11 +19,13 @@ public:
 
     void openSerialPort(const QString &portName);
 
-    void sendCommand(const uint8_t data[20], const uint8_t command);
+    void sendCommand(const float pCoeff, const float iCoeff, const float dCoeff, const float corr,
+                                                                                 const uint32_t ref,
+                                                                                 const uint8_t command);
 
     bool openedSuccesfully();
 
-    std::array<uint8_t, 20> combineArray(const float pCoeff, const float iCoeff, const float dCoeff,
+    std::array<uint8_t, 20> combineArray(const float pCoeff, const float iCoeff,  const float dCoeff,
                                                                                   const float corr,
                                                                                   const uint32_t ref);
 

@@ -160,7 +160,7 @@ void MainWindow::connectClicked() {
     // writing message to console:
     if (serialDriver.openedSuccesfully()) {
 
-        console -> appendPlainText("Установлено соединение по " + (this -> comPortSelector -> currentText()));
+        console -> appendPlainText(CONNECTION_SUCCESS_LABEL + (this -> comPortSelector -> currentText()));
 
     }
 

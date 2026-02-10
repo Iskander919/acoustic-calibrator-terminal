@@ -13,6 +13,8 @@
 #define I_EDIT_LABEL            "I"
 #define D_EDIT_LABEL            "D"
 
+#define CONNECTION_SUCCESS_LABEL "Установлено соединение по "
+
 // dimensions:
 #define MAIN_WINDOW_HEIGHT 400
 #define MAIN_WINDOW_WIDTH  600

@@ -105,6 +105,32 @@ std::array<uint8_t, 20> SerialDriver::combineArray(const float pCoeff, const flo
 
 }
 
+/**
+ * @brief SerialDriver::sendCommand
+ * @param data
+ * @param command
+ */
+void SerialDriver::sendCommand(const float pCoeff, const float iCoeff, const float dCoeff,
+                               const float corr,
+                               const uint32_t ref, uint8_t command) {
+
+    std::array<uint8_t, 20> toSend = combineArray(pCoeff, iCoeff, dCoeff, corr, ref);
+    QByteArray qToSend;
+
+    // converting std::array to QByteArray
+    for(int i = 0; i < toSend.size(); i++) {
+
+        qToSend.append(toSend[i]);
+
+    }
+
+
+}
+
+/**
+ * @brief SerialDriver::openedSuccesfully
+ * @return
+ */
 bool SerialDriver::openedSuccesfully() {
 
     return this -> ok;
