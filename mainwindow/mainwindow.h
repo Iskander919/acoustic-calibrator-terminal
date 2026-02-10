@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "main_window_labels.h"
+#include "com_port_driver.h"
 
 
 #include <QMainWindow>
@@ -48,7 +49,8 @@ private:
 
     void updatePortsList();
 
-    void setupTimer();
+    // declaring slots:
+    void connectClicked();
 
     // defining layouts:
     QHBoxLayout *mainLayout = nullptr;

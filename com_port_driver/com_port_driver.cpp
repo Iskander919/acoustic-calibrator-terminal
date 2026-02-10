@@ -30,6 +30,11 @@ void SerialDriver::openSerialPort(const QString &portName) {
 
     }
 
+    else {
+
+        qDebug() << "Opening successful";
+    }
+
 }
 
 /**

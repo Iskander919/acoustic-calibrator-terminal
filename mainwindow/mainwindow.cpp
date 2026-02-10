@@ -49,6 +49,9 @@ void MainWindow::setupConnections() {
     // connecting timer timeout for updating available ports:
     connect(timer, &QTimer::timeout, this, &MainWindow::updatePortsList);
     */
+
+    // connecting Connect button
+    connect(setConnectionButton, &QPushButton::clicked, this, &MainWindow::connectClicked);
 }
 
 /**
@@ -140,11 +143,11 @@ void MainWindow::updatePortsList() {
 }
 
 /**
- * @brief MainWindow::setupTimer
+ * @brief MainWindow::connectClicked
  */
-void MainWindow::setupTimer() {
+void MainWindow::connectClicked() {
 
-    timer = new QTimer(this);
-    timer -> start(1000);
+    SerialDriver serialDriver;
+    serialDriver.openSerialPort(this -> comPortSelector ->currentText());
 
 }
