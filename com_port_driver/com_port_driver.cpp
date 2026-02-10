@@ -6,6 +6,7 @@
 SerialDriver::SerialDriver() {
 
     this -> SerialPortObj = new QSerialPort();
+    this -> ok = false;
 
 }
 
@@ -27,12 +28,15 @@ void SerialDriver::openSerialPort(const QString &portName) {
     if (!this -> SerialPortObj -> isOpen()) {
 
         qDebug() << "COM Port Error: " << this -> SerialPortObj -> error();
+        this -> ok = false;
 
     }
 
     else {
 
         qDebug() << "Opening successful";
+        this -> ok = true;
+
     }
 
 }
@@ -70,28 +74,39 @@ std::array<uint8_t, 20> SerialDriver::combineArray(const float pCoeff, const flo
     for(int i = 0; i < 4; i++) {
 
         result[i] = pBytes[i];
+
     }
 
     for(int i = 0; i < 4; i++) {
 
         result[i + 4] = iBytes[i];
+
     }
 
     for(int i = 0; i < 4; i++) {
 
         result[i + 8] = dBytes[i];
+
     }
 
     for(int i = 0; i < 4; i++) {
 
         result[i + 12] = corrBytes[i];
+
     }
 
     for(int i = 0; i < 4; i++) {
 
         result[i + 16] = refBytes[i];
+
     }
 
     return result;
+
+}
+
+bool SerialDriver::openedSuccesfully() {
+
+    return this -> ok;
 
 }

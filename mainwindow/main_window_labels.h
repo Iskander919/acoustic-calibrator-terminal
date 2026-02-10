@@ -17,5 +17,9 @@
 #define MAIN_WINDOW_HEIGHT 400
 #define MAIN_WINDOW_WIDTH  600
 
+// fonts
+#define CONSOLE_FONT      "Courier"
+#define CONSOLE_FONT_SIZE 11
+
 
 #endif // MAIN_WINDOW_LABELS_H

@@ -21,6 +21,8 @@ public:
 
     void sendCommand(const uint8_t data[20], const uint8_t command);
 
+    bool openedSuccesfully();
+
     std::array<uint8_t, 20> combineArray(const float pCoeff, const float iCoeff, const float dCoeff,
                                                                                   const float corr,
                                                                                   const uint32_t ref);
@@ -29,8 +31,14 @@ private:
 
     QSerialPort *SerialPortObj;
 
+    // array that stores bytes to send
     std::array<uint8_t, 20> data;
+
+    // variable that stores a command to send
     uint8_t command;
+
+    // variable that stores status of COM Port (whether opening was succesful)
+    bool ok;
 
 };
 

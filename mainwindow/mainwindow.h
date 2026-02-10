@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <QComboBox>
+#include <QFont>
 #include <QLabel>
 #include <QLineEdit>
 #include <QList>
@@ -62,6 +63,9 @@ private:
     QLineEdit *pCoeffEdit     = nullptr;
     QLineEdit *iCoeffEdit     = nullptr;
     QLineEdit *dCoeffEdit     = nullptr;
+
+    // defining console:
+    QPlainTextEdit *console = nullptr;
 
 
     // defining serial port object:

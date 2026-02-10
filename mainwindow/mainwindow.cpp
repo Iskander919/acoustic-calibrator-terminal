@@ -24,7 +24,7 @@ void MainWindow::setupUi() {
     QWidget *central = new QWidget(this);
     setCentralWidget(central);
 
-    setFixedSize(600, 400);
+    setFixedSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
 
     mainLayout = new QHBoxLayout(central);
 
@@ -94,7 +94,12 @@ void MainWindow::setupConsoleLayout() {
 
     consoleLayout = new QVBoxLayout();
 
-    QPlainTextEdit *console = new QPlainTextEdit();
+    console = new QPlainTextEdit();
+
+    // setting font for console(QPlaintextEdit);
+    QFont consoleFont(CONSOLE_FONT, CONSOLE_FONT_SIZE);
+    consoleFont.setStyleHint(QFont::Monospace);
+    console -> setFont(consoleFont);
 
     console -> setReadOnly(true);
 
@@ -148,6 +153,18 @@ void MainWindow::updatePortsList() {
 void MainWindow::connectClicked() {
 
     SerialDriver serialDriver;
-    serialDriver.openSerialPort(this -> comPortSelector ->currentText());
+
+    // getting COM Port number from comPortSelector(ComboBox) and opening it
+    serialDriver.openSerialPort(this -> comPortSelector -> currentText());
+
+    // writing message to console:
+    if (serialDriver.openedSuccesfully()) {
+
+        console -> appendPlainText("Установлено соединение по " + (this -> comPortSelector -> currentText()));
+
+    }
+
+    //---------------------------------------------------------------------------//
+    //---------------------------------------------------------------------------//
 
 }
