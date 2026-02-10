@@ -8,6 +8,8 @@
 #include <QList>
 #include <array>
 #include <bit>
+#include <iomanip>
+#include <iostream>
 
 #define BAUD_RATE QSerialPort::BaudRate::Baud115200
 

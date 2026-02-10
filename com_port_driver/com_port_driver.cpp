@@ -124,7 +124,18 @@ void SerialDriver::sendCommand(const float pCoeff, const float iCoeff, const flo
 
     }
 
+    // appending command to the end of array
+    qToSend.append(command);
 
+    for(int i = 0; i < qToSend.size(); i++) {
+
+        std::cout << std::hex << std::setw(3) << static_cast<int>(qToSend[i]) << " ";
+    }
+
+    /*
+    // writing data to serial port:
+    SerialPortObj->write(qToSend);
+    */
 }
 
 /**
