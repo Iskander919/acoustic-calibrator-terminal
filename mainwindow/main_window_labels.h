@@ -20,6 +20,7 @@
 #define MODE_114_LABEL          "114 dB"
 
 #define CONNECTION_SUCCESS_LABEL "Установлено соединение по "
+#define DATA_SENT_TO_RAM         "Данные записаны в RAM"
 #define SWITCHED_TO_94_LABEL     "Переключен в режим 94 дБ"
 #define SWITCHED_TO_114_LABEL    "Переключен в режим 114 дБ"
 
@@ -32,7 +33,9 @@
 #define CONSOLE_FONT_SIZE 11
 
 // commands:
-#define SWITCH_TO_94_COMMAND  0x05
-#define SWITCH_TO_114_COMMAND 0x06
+#define WRITE_DATA_TO_RAM_COMMAND_94  0x01
+#define WRITE_DATA_TO_RAM_COMMAND_114 0x07
+#define SWITCH_TO_94_COMMAND          0x05
+#define SWITCH_TO_114_COMMAND         0x06
 
 #endif // MAIN_WINDOW_LABELS_H

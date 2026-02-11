@@ -139,7 +139,7 @@ void SerialDriver::sendCommand(const float pCoeff, const float iCoeff, const flo
 
     if(SerialPortObj -> waitForBytesWritten(500)) {
 
-        qDebug() << "Bytes written succesfully";
+        qDebug() << "Bytes written successfully";
 
     }
 

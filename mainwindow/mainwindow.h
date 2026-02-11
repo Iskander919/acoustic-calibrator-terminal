@@ -64,9 +64,11 @@ private:
     void switchClicked94();
     void switchClicked114();
 
+    void closeClicked();
+
     // defining layouts:
-    QHBoxLayout *mainLayout = nullptr;
-    QVBoxLayout *buttonLayout = nullptr;
+    QHBoxLayout *mainLayout    = nullptr;
+    QVBoxLayout *buttonLayout  = nullptr;
     QVBoxLayout *consoleLayout = nullptr;
 
     // defining line edits:

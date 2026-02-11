@@ -3,6 +3,7 @@
 /**
  * @brief MainWindow::MainWindow
  * @param parent
+ * @return none
  */
 MainWindow::MainWindow(QWidget *parent) : QMainWindow{parent} {
 
@@ -17,7 +18,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow{parent} {
 }
 
 /**
- * @brief MainWindow::setupUi
+ * @brief MainWindow::setupUi: function that setups layouts and ui elements
+ * @param none
+ * @return none
  */
 void MainWindow::setupUi() {
 
@@ -38,11 +41,13 @@ void MainWindow::setupUi() {
 
 /**
  * @brief MainWindow::setupConnections
+ * @param none
+ * @return none
  */
 void MainWindow::setupConnections() {
 
     // connecting Close button
-    connect(closeButton, &QPushButton::clicked, this, &QWidget::close);
+    connect(closeButton, &QPushButton::clicked, this, &MainWindow::closeClicked);
 
 
     /*
@@ -58,11 +63,15 @@ void MainWindow::setupConnections() {
 
     // connecting switcher to 114 dB
     connect(setModeButton114, &QPushButton::clicked, this, &MainWindow::switchClicked114);
+
+    // connecting Send button
+    connect(setCoeffsButton, &QPushButton::clicked, this, &MainWindow::sendDataClicked);
 }
 
 /**
  * @brief MainWindow::setupButtonLayout
- * @param
+ * @param none
+ * @return none
  */
 void MainWindow::setupButtonLayout() {
 
@@ -107,6 +116,7 @@ void MainWindow::setupButtonLayout() {
 /**
  * @brief MainWindow::setupConsoleLayout
  * @param parentWidget
+ * @return none
  */
 void MainWindow::setupConsoleLayout() {
 
@@ -167,6 +177,8 @@ void MainWindow::updatePortsList() {
 
 /**
  * @brief MainWindow::connectClicked
+ * @param none
+ * @return none
  */
 void MainWindow::connectClicked() {
 
@@ -179,12 +191,15 @@ void MainWindow::connectClicked() {
     if (serialDriver -> openedSuccesfully()) {
 
         console -> appendPlainText(CONNECTION_SUCCESS_LABEL + (this -> comPortSelector -> currentText()));
+
+        // enbaling buttons after successful connection
+        setCoeffsButton   -> setEnabled(true);
         setModeButton94   -> setEnabled(true);
         setModeButton114  -> setEnabled(true);
 
     }
 
-    //---------------------------------------------------------------------------//
+    //debug----------------------------------------------------------------------//
     std::array<uint8_t, 20> combined = serialDriver -> combineArray(0.00001, 0.0000015, 0.00001, 0.000245, 3500);
     for(int i = 0; i < 20; i++) {
 
@@ -199,17 +214,52 @@ void MainWindow::connectClicked() {
 }
 
 /**
- * @brief MainWindow::sendDataClicked
+ * @brief MainWindow::sendDataClicked: function that handles click of Send button
+ * @param none
+ * @return none
  */
 void MainWindow::sendDataClicked() {
 
-    if(this -> modeSelector -> currentText() == MODE_94_LABEL) {
+    if    (!this -> pCoeffEdit -> text().isEmpty()
+        && !this -> iCoeffEdit -> text().isEmpty()
+        && !this -> dCoeffEdit -> text().isEmpty()
+        && !this -> correctionEdit -> text().isEmpty()) {
 
+        if (serialDriver -> openedSuccesfully() && (modeSelector -> currentText() == MODE_94_LABEL)) {
+
+            float pToSend = (this -> pCoeffEdit -> text()).toFloat();
+            float iToSend = (this -> iCoeffEdit -> text()).toFloat();
+            float dToSend = (this -> dCoeffEdit -> text()).toFloat();
+            float correctionToSend = (this -> correctionEdit -> text()).toFloat();
+
+            serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, 2070, WRITE_DATA_TO_RAM_COMMAND_94);
+
+            console -> appendPlainText(DATA_SENT_TO_RAM);
+
+        }
+
+        /** not tested **/
+        else if (serialDriver -> openedSuccesfully() && (modeSelector -> currentText() == MODE_114_LABEL)) {
+
+            float pToSend = (this -> pCoeffEdit -> text()).toFloat();
+            float iToSend = (this -> iCoeffEdit -> text()).toFloat();
+            float dToSend = (this -> dCoeffEdit -> text()).toFloat();
+            float correctionToSend = (this -> correctionEdit -> text()).toFloat();
+
+            serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, 3500, WRITE_DATA_TO_RAM_COMMAND_114);
+
+            console -> appendPlainText(DATA_SENT_TO_RAM);
+
+
+
+        }
+        /****************************************************************/
 
     }
 
     else {
 
+        return;
 
     }
 
@@ -223,7 +273,7 @@ void MainWindow::sendDataClicked() {
  */
 void MainWindow::switchClicked94() {
 
-    if(serialDriver->openedSuccesfully()) {
+    if (serialDriver->openedSuccesfully()) {
 
         serialDriver -> sendCommand(0, 0, 0, 0, 0, SWITCH_TO_94_COMMAND);
 
@@ -247,5 +297,18 @@ void MainWindow::switchClicked114() {
     }
 
     console -> appendPlainText(SWITCHED_TO_114_LABEL);
+
+}
+
+/**
+ * @brief MainWindow::closeClicked
+ * @param none
+ * @return none
+ */
+void MainWindow::closeClicked() {
+
+    // freeing memory which was allocated for serialDriver
+    delete (this -> serialDriver);
+    this -> close();
 
 }
