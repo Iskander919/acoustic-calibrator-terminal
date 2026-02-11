@@ -32,15 +32,19 @@ public:
 
     // declaring buttons:
     QPushButton *setConnectionButton = nullptr;
+    QPushButton *setModeButton94     = nullptr;
+    QPushButton *setModeButton114    = nullptr;
     QPushButton *eraseMemoryButton   = nullptr;
     QPushButton *writeMemoryButton   = nullptr;
     QPushButton *setCoeffsButton     = nullptr;
     QPushButton *closeButton         = nullptr;
 
     QComboBox *comPortSelector       = nullptr;
+    QComboBox *modeSelector          = nullptr;
 
 private:
 
+    // ui setup functions:
     void setupUi();
     void setupConnections();
 
@@ -55,6 +59,10 @@ private:
 
     // declaring slots:
     void connectClicked();
+    void sendDataClicked();
+
+    void switchClicked94();
+    void switchClicked114();
 
     // defining layouts:
     QHBoxLayout *mainLayout = nullptr;
@@ -70,13 +78,15 @@ private:
     // defining console:
     QPlainTextEdit *console = nullptr;
 
-
     // defining serial port object:
     QSerialPort *serial = nullptr;
     QTimer      *timer  = nullptr;
 
     // defining list of available ports:
     QList<QSerialPortInfo> portsList;
+
+    // creating SerialDriver object:
+    SerialDriver *serialDriver = nullptr;
 
 
 };
