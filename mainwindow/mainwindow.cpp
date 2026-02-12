@@ -17,6 +17,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow{parent} {
 
 }
 
+MainWindow::~MainWindow() {
+
+    delete(this -> serialDriver);
+
+}
+
 /**
  * @brief MainWindow::setupUi: function that setups layouts and ui elements
  * @param none
@@ -307,8 +313,6 @@ void MainWindow::switchClicked114() {
  */
 void MainWindow::closeClicked() {
 
-    // freeing memory which was allocated for serialDriver
-    delete (this -> serialDriver);
     this -> close();
 
 }

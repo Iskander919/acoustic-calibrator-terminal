@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow {
 public:
 
     explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
     // declaring buttons:
     QPushButton *setConnectionButton = nullptr;
