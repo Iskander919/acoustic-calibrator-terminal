@@ -94,6 +94,7 @@ void MainWindow::setupButtonLayout() {
     setCoeffsButton     = new QPushButton(SET_COEFFS_BUTTON_LABEL);
     writeMemoryButton   = new QPushButton(WRITE_MEM_BUTTON_LABEL);
     eraseMemoryButton   = new QPushButton(ERASE_MEM_BUTTON_LABEL);
+    infoButton          = new QPushButton(INFO_BUTTON_LABEL);
     closeButton         = new QPushButton(CLOSE_BUTTON_LABEL);
 
     // implementing drop-down menu for COM-port selection
@@ -113,6 +114,7 @@ void MainWindow::setupButtonLayout() {
     buttonLayout -> addWidget(setCoeffsButton);
     buttonLayout -> addWidget(writeMemoryButton);
     buttonLayout -> addWidget(eraseMemoryButton);
+    buttonLayout -> addWidget(infoButton);
     buttonLayout -> addWidget(closeButton);
 
     setCoeffsButton   -> setEnabled(false);

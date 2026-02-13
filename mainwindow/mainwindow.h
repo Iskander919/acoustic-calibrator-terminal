@@ -39,6 +39,7 @@ public:
     QPushButton *eraseMemoryButton   = nullptr;
     QPushButton *writeMemoryButton   = nullptr;
     QPushButton *setCoeffsButton     = nullptr;
+    QPushButton *infoButton          = nullptr;
     QPushButton *closeButton         = nullptr;
 
     QComboBox *comPortSelector       = nullptr;

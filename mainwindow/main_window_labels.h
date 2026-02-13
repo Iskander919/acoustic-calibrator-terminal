@@ -8,6 +8,7 @@
 #define SET_COEFFS_BUTTON_LABEL "Отправить"
 #define WRITE_MEM_BUTTON_LABEL  "Записать данные в память"
 #define ERASE_MEM_BUTTON_LABEL  "Стереть память"
+#define INFO_BUTTON_LABEL       "Справка"
 #define CLOSE_BUTTON_LABEL      "Закрыть"
 
 #define CORRECTION_EDIT_LABEL   "Уровень"

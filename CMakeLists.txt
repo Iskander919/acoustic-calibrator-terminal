@@ -21,12 +21,14 @@ add_executable(acoustic-calibrator-terminal
   mainwindow/main_window_labels.h
   com_port_driver/com_port_driver.cpp
   com_port_driver/com_port_driver.h
+  infowindow/infowindow.cpp
+  infowindow/infowindow.h
 )
 target_link_libraries(acoustic-calibrator-terminal PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(acoustic-calibrator-terminal PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(acoustic-calibrator-terminal PRIVATE Qt${QT_VERSION_MAJOR}::SerialPort)
 
-target_include_directories(acoustic-calibrator-terminal PRIVATE mainwindow com_port_driver)
+target_include_directories(acoustic-calibrator-terminal PRIVATE mainwindow com_port_driver infowindow)
 
 include(GNUInstallDirs)
 install(TARGETS acoustic-calibrator-terminal
