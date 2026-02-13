@@ -20,6 +20,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QTimer>
+#include <QValidator>
 #include <QVBoxLayout>
 
 class MainWindow : public QMainWindow {
@@ -58,14 +59,19 @@ private:
 
     void updatePortsList();
 
+    bool isFloat(QString *text);
+
     // declaring slots:
-    void connectClicked();
-    void sendDataClicked();
+    void connectClicked();  // "Connect" clicked
+    void sendDataClicked(); // "Send" clicked
 
-    void switchClicked94();
-    void switchClicked114();
+    void switchClicked94(); // "Switch to 94 clicked"
+    void switchClicked114();// "Switch to 114 clicked"
 
-    void closeClicked();
+    void writeMemory();     // "Write to memory" clicked (EEPROM)
+
+    void closeClicked();    // "Close" clicked
+
 
     // defining layouts:
     QHBoxLayout *mainLayout    = nullptr;
@@ -91,6 +97,7 @@ private:
     // creating SerialDriver object:
     SerialDriver *serialDriver = nullptr;
 
+    QDoubleValidator *pidValidator = nullptr;
 
 };
 

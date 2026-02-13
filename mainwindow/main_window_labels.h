@@ -23,6 +23,11 @@
 #define DATA_SENT_TO_RAM         "Данные записаны в RAM"
 #define SWITCHED_TO_94_LABEL     "Переключен в режим 94 дБ"
 #define SWITCHED_TO_114_LABEL    "Переключен в режим 114 дБ"
+#define EEPROM_94_LABEL          "Данные записаны в EEPROM для режима 94 дБ"
+#define EEPROM_114_LABEL         "Данные записаны в EEPROM для режима 114 дБ"
+
+#define NUMERIC_WARNING          "Все поля должны иметь числовое значение"
+
 
 // dimensions:
 #define MAIN_WINDOW_HEIGHT 400
@@ -37,5 +42,17 @@
 #define WRITE_DATA_TO_RAM_COMMAND_114 0x07
 #define SWITCH_TO_94_COMMAND          0x05
 #define SWITCH_TO_114_COMMAND         0x06
+#define WRITE_94_TO_MEMORY_COMMAND    0x08
+#define WRITE_114_TO_MEMORY_COMMAND   0x09
+
+// adc refs:
+#define MODE_94_REF  2070
+#define MODE_114_REF 3500
+
+// default values:
+#define P_DEFAULT    "0.0000001"
+#define I_DEFAULT    "0.00000002"
+#define D_DEFAULT    "0.00000002"
+#define BIAS_DEFAULT "0.098"
 
 #endif // MAIN_WINDOW_LABELS_H

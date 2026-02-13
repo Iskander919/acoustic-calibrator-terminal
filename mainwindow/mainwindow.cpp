@@ -72,6 +72,10 @@ void MainWindow::setupConnections() {
 
     // connecting Send button
     connect(setCoeffsButton, &QPushButton::clicked, this, &MainWindow::sendDataClicked);
+
+    // connecting Write Memory button
+    connect(writeMemoryButton, &QPushButton::clicked, this, &MainWindow::writeMemory);
+
 }
 
 /**
@@ -137,10 +141,10 @@ void MainWindow::setupConsoleLayout() {
 
     console -> setReadOnly(true);
 
-    correctionEdit = new QLineEdit();
-    pCoeffEdit     = new QLineEdit();
-    iCoeffEdit     = new QLineEdit();
-    dCoeffEdit     = new QLineEdit();
+    correctionEdit = new QLineEdit(BIAS_DEFAULT);
+    pCoeffEdit     = new QLineEdit(P_DEFAULT);
+    iCoeffEdit     = new QLineEdit(I_DEFAULT);
+    dCoeffEdit     = new QLineEdit(D_DEFAULT);
 
     // defining labels for line edits
     QLabel *correctionEditLabel = new QLabel(CORRECTION_EDIT_LABEL);
@@ -202,6 +206,7 @@ void MainWindow::connectClicked() {
         setCoeffsButton   -> setEnabled(true);
         setModeButton94   -> setEnabled(true);
         setModeButton114  -> setEnabled(true);
+        writeMemoryButton -> setEnabled(true);
 
     }
 
@@ -226,49 +231,35 @@ void MainWindow::connectClicked() {
  */
 void MainWindow::sendDataClicked() {
 
-    if    (!this -> pCoeffEdit -> text().isEmpty()
-        && !this -> iCoeffEdit -> text().isEmpty()
-        && !this -> dCoeffEdit -> text().isEmpty()
-        && !this -> correctionEdit -> text().isEmpty()) {
+    bool okP = false, okI = false, okD = false, okB = false;
 
-        if (serialDriver -> openedSuccesfully() && (modeSelector -> currentText() == MODE_94_LABEL)) {
+    float pToSend = (this -> pCoeffEdit -> text()).toFloat(&okP);
+    float iToSend = (this -> iCoeffEdit -> text()).toFloat(&okI);
+    float dToSend = (this -> dCoeffEdit -> text()).toFloat(&okD);
+    float correctionToSend = (this -> correctionEdit -> text()).toFloat(&okB);
 
-            float pToSend = (this -> pCoeffEdit -> text()).toFloat();
-            float iToSend = (this -> iCoeffEdit -> text()).toFloat();
-            float dToSend = (this -> dCoeffEdit -> text()).toFloat();
-            float correctionToSend = (this -> correctionEdit -> text()).toFloat();
+    bool ok = okP & okI & okD &okB;
 
-            serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, 2070, WRITE_DATA_TO_RAM_COMMAND_94);
+    if (!ok) {
 
-            console -> appendPlainText(DATA_SENT_TO_RAM);
+        console -> appendPlainText(NUMERIC_WARNING);
+        return;
 
-        }
+    }
 
-        /** not tested **/
-        else if (serialDriver -> openedSuccesfully() && (modeSelector -> currentText() == MODE_114_LABEL)) {
+    if (modeSelector -> currentText() == MODE_94_LABEL) {
 
-            float pToSend = (this -> pCoeffEdit -> text()).toFloat();
-            float iToSend = (this -> iCoeffEdit -> text()).toFloat();
-            float dToSend = (this -> dCoeffEdit -> text()).toFloat();
-            float correctionToSend = (this -> correctionEdit -> text()).toFloat();
-
-            serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, 3500, WRITE_DATA_TO_RAM_COMMAND_114);
-
-            console -> appendPlainText(DATA_SENT_TO_RAM);
-
-
-
-        }
-        /****************************************************************/
+        serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, MODE_94_REF, WRITE_DATA_TO_RAM_COMMAND_94);
+        console -> appendPlainText(DATA_SENT_TO_RAM);
 
     }
 
     else {
 
-        return;
+        serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, MODE_114_REF, WRITE_DATA_TO_RAM_COMMAND_114);
+        console -> appendPlainText(DATA_SENT_TO_RAM);
 
     }
-
 
 }
 
@@ -304,6 +295,45 @@ void MainWindow::switchClicked114() {
 
     console -> appendPlainText(SWITCHED_TO_114_LABEL);
 
+}
+
+/**
+ * @brief MainWindow::writeMemory
+ * @param
+ * @return
+ */
+void MainWindow::writeMemory() {
+
+    if (serialDriver -> openedSuccesfully()) {
+
+        // wriritng data for 94 dB mode
+        if (modeSelector -> currentText() == MODE_94_LABEL) {
+
+            // sending command to write contents of RAM to EEPROM
+            serialDriver -> sendCommand(0.0, 0.0, 0.0, 0.0, 0, 0x08);
+
+            console -> appendPlainText(EEPROM_94_LABEL);
+
+        }
+
+        // wriritng data for 114 dB mode
+        else {
+
+            serialDriver -> sendCommand(0.0, 0.0, 0.0, 0.0, 0, 0x09);
+            console -> appendPlainText(EEPROM_114_LABEL);
+
+        }
+
+    }
+
+}
+
+bool MainWindow::isFloat(QString *text) {
+
+    pidValidator = new QDoubleValidator(-1.0, 1.0, 32, this);
+    pidValidator -> setNotation(QDoubleValidator::StandardNotation);
+
+    return false;
 }
 
 /**
