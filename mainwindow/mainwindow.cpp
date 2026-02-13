@@ -76,6 +76,9 @@ void MainWindow::setupConnections() {
     // connecting Write Memory button
     connect(writeMemoryButton, &QPushButton::clicked, this, &MainWindow::writeMemory);
 
+    // connecting Info button
+    //connect(infoButton, &QPushButton::clicked, this, )
+
 }
 
 /**

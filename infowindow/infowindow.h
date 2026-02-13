@@ -5,6 +5,11 @@
 #include <QMainWindow>
 #include <QTextEdit>
 #include <QPushButton>
+#include <QVBoxLayout>
+
+#define CLOSE_INFO_BUTTON_LABEL "Закрыть"
+
+#define TEXT_INFO "Info"
 
 class InfoWindow : public QMainWindow {
 public:
@@ -12,7 +17,12 @@ public:
     explicit InfoWindow(QWidget *parent = nullptr);
     ~InfoWindow();
 
+    void setupUi();
+    void setupConnections();
+
 private:
+
+    QVBoxLayout *layout = nullptr;
 
     QTextEdit *text = nullptr;
     QPushButton *closeButton = nullptr;

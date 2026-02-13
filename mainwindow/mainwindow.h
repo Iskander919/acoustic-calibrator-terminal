@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "infowindow.h"
 #include "main_window_labels.h"
 #include "com_port_driver.h"
 
