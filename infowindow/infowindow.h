@@ -11,6 +11,9 @@
 
 #define TEXT_INFO "Info"
 
+#define INFO_WIDTH  500
+#define INFO_HEIGHT 500
+
 class InfoWindow : public QMainWindow {
 public:
 

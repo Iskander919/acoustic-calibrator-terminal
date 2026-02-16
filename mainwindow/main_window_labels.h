@@ -50,10 +50,16 @@
 #define MODE_94_REF  2070
 #define MODE_114_REF 3500
 
-// default values:
+// default values for 94 dB:
 #define P_DEFAULT    "0.0000001"
 #define I_DEFAULT    "0.00000002"
 #define D_DEFAULT    "0.00000002"
 #define BIAS_DEFAULT "0.098"
+
+// default values for 114 dB:
+#define P_DEFAULT_114 "0.00001"
+#define I_DEFAULT_114 "0.0000015"
+#define D_DEFAULT_114 "0.00001"
+#define BIAS_DEFAULT_114 "3500"
 
 #endif // MAIN_WINDOW_LABELS_H

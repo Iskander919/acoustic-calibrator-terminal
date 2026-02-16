@@ -64,15 +64,19 @@ private:
     bool isFloat(QString *text);
 
     // declaring slots:
-    void connectClicked();  // "Connect" clicked
-    void sendDataClicked(); // "Send" clicked
+    void connectClicked();  // "Connect" clicked handler
+    void sendDataClicked(); // "Send" clicked handler
 
-    void switchClicked94(); // "Switch to 94 clicked"
-    void switchClicked114();// "Switch to 114 clicked"
+    void switchClicked94(); // "Switch to 94" clicked handler
+    void switchClicked114();// "Switch to 114" clicked handler
 
-    void writeMemory();     // "Write to memory" clicked (EEPROM)
+    void writeMemory();     // "Write to memory" clicked (EEPROM) handler
 
-    void closeClicked();    // "Close" clicked
+    void closeClicked();    // "Close" clicked handler
+
+    void infoClicked();     // "Info" clicked handler
+
+    void modeSelectorChanged(); // handler of signal of changed option in mode selector
 
 
     // defining layouts:
@@ -100,6 +104,8 @@ private:
     SerialDriver *serialDriver = nullptr;
 
     QDoubleValidator *pidValidator = nullptr;
+
+    InfoWindow *infoWindow = nullptr;
 
 };
 

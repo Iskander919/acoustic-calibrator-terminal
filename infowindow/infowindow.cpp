@@ -17,7 +17,11 @@ void InfoWindow::setupUi() {
 
     QWidget *central = new QWidget(this);
 
+    //resize(INFO_WIDTH, INFO_HEIGHT);
+    setFixedSize(INFO_WIDTH, INFO_HEIGHT);
+
     text = new QTextEdit(TEXT_INFO);
+    text -> setReadOnly(true);
 
     setCentralWidget(central);
 

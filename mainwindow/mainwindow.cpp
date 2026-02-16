@@ -77,7 +77,10 @@ void MainWindow::setupConnections() {
     connect(writeMemoryButton, &QPushButton::clicked, this, &MainWindow::writeMemory);
 
     // connecting Info button
-    //connect(infoButton, &QPushButton::clicked, this, )
+    connect(infoButton, &QPushButton::clicked, this, &MainWindow::infoClicked);
+
+    // connecting changing mode selector signal
+    connect(modeSelector, &QComboBox::currentTextChanged, this, &MainWindow::modeSelectorChanged);
 
 }
 
@@ -315,7 +318,7 @@ void MainWindow::writeMemory() {
         if (modeSelector -> currentText() == MODE_94_LABEL) {
 
             // sending command to write contents of RAM to EEPROM
-            serialDriver -> sendCommand(0.0, 0.0, 0.0, 0.0, 0, 0x08);
+            serialDriver -> sendCommand(0.0, 0.0, 0.0, 0.0, 0, WRITE_94_TO_MEMORY_COMMAND);
 
             console -> appendPlainText(EEPROM_94_LABEL);
 
@@ -324,7 +327,7 @@ void MainWindow::writeMemory() {
         // wriritng data for 114 dB mode
         else {
 
-            serialDriver -> sendCommand(0.0, 0.0, 0.0, 0.0, 0, 0x09);
+            serialDriver -> sendCommand(0.0, 0.0, 0.0, 0.0, 0, WRITE_114_TO_MEMORY_COMMAND);
             console -> appendPlainText(EEPROM_114_LABEL);
 
         }
@@ -349,5 +352,46 @@ bool MainWindow::isFloat(QString *text) {
 void MainWindow::closeClicked() {
 
     this -> close();
+
+}
+
+/**
+ * @brief MainWindow::modeSelectorChanged
+ * @param none
+ * @return none
+ */
+void MainWindow::modeSelectorChanged() {
+
+    if (modeSelector -> currentText() == MODE_94_LABEL) {
+
+        correctionEdit -> setText(BIAS_DEFAULT);
+        pCoeffEdit     -> setText(P_DEFAULT);
+        iCoeffEdit     -> setText(I_DEFAULT);
+        dCoeffEdit     -> setText(D_DEFAULT);
+
+    }
+
+    else if (modeSelector -> currentText() == MODE_114_LABEL) {
+
+        correctionEdit -> setText(BIAS_DEFAULT_114);
+        pCoeffEdit     -> setText(P_DEFAULT_114);
+        iCoeffEdit     -> setText(I_DEFAULT_114);
+        dCoeffEdit     -> setText(D_DEFAULT_114);
+
+    }
+
+    else return;
+
+}
+
+/**
+ * @brief MainWindow::infoClicked
+ * @param none
+ * @return none
+ */
+void MainWindow::infoClicked() {
+
+    infoWindow = new InfoWindow(this);
+    infoWindow -> show();
 
 }
