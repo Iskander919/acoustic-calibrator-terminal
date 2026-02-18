@@ -10,11 +10,17 @@
 #define ERASE_MEM_BUTTON_LABEL  "Стереть память"
 #define INFO_BUTTON_LABEL       "Справка"
 #define CLOSE_BUTTON_LABEL      "Закрыть"
+#define DEVICE_DATA_BUTTN_LABEL "Прочитать"
+#define DEVICE_DATA_WRITE_BUTTON_LABEL "Записать"
 
 #define CORRECTION_EDIT_LABEL   "Уровень"
 #define P_EDIT_LABEL            "P"
 #define I_EDIT_LABEL            "I"
 #define D_EDIT_LABEL            "D"
+
+#define DEVICE_NUMBER_LABEL     "Серийный номер"
+#define SOFTWARE_VERSION_LABEL  "Версия ПО"
+#define CHECKSUM_LABEL          "Контрольная сумма"
 
 // mode labels:
 #define MODE_94_LABEL           "94 dB"
@@ -31,8 +37,8 @@
 
 
 // dimensions:
-#define MAIN_WINDOW_HEIGHT 400
-#define MAIN_WINDOW_WIDTH  600
+#define MAIN_WINDOW_HEIGHT 500
+#define MAIN_WINDOW_WIDTH  900
 
 // fonts:
 #define CONSOLE_FONT      "Courier"
@@ -45,6 +51,8 @@
 #define SWITCH_TO_114_COMMAND         0x06
 #define WRITE_94_TO_MEMORY_COMMAND    0x08
 #define WRITE_114_TO_MEMORY_COMMAND   0x09
+#define WRITE_DEVICE_ID_COMMAND       0x0A
+#define READ_DEVICE_DATA_COMMAND      0x0B
 
 // adc refs:
 #define MODE_94_REF  2070
@@ -55,11 +63,10 @@
 #define I_DEFAULT    "0.00000002"
 #define D_DEFAULT    "0.00000002"
 #define BIAS_DEFAULT "0.098"
-
 // default values for 114 dB:
-#define P_DEFAULT_114 "0.00001"
-#define I_DEFAULT_114 "0.0000015"
-#define D_DEFAULT_114 "0.00001"
-#define BIAS_DEFAULT_114 "3500"
+#define P_DEFAULT_114    "0.00001"
+#define I_DEFAULT_114    "0.0000015"
+#define D_DEFAULT_114    "0.00001"
+#define BIAS_DEFAULT_114 "0.000245"
 
 #endif // MAIN_WINDOW_LABELS_H

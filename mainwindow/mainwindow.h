@@ -43,6 +43,9 @@ public:
     QPushButton *infoButton          = nullptr;
     QPushButton *closeButton         = nullptr;
 
+    QPushButton *readDeviceDataButton  = nullptr;
+    QPushButton *writeDeviceDataButton = nullptr;
+
     QComboBox *comPortSelector       = nullptr;
     QComboBox *modeSelector          = nullptr;
 
@@ -54,8 +57,10 @@ private:
 
     void setupLayouts(QWidget *parentWidget);
 
+    // layouts setup functions:
     void setupButtonLayout();
     void setupConsoleLayout();
+    void setupDeviceDataLayout();
 
     void setupLineEdits();
 
@@ -76,19 +81,33 @@ private:
 
     void infoClicked();     // "Info" clicked handler
 
-    void modeSelectorChanged(); // handler of signal of changed option in mode selector
+    void modeSelectorChanged();   // handler of signal of changed option in mode selector
+
+    void writeIdClicked();        // "Write ID" clicked handler
+
+    void readDeviceDataClicked(); // "Read Device Data" clicked handler
+
+    void updateWriteIdButton();   // function that updates "Write ID" button when text in ID line edit changes
+
+    void deviceIdTextChanged();   // handler of changing text in device ID line edit
 
 
     // defining layouts:
-    QHBoxLayout *mainLayout    = nullptr;
-    QVBoxLayout *buttonLayout  = nullptr;
-    QVBoxLayout *consoleLayout = nullptr;
+    QHBoxLayout *mainLayout       = nullptr;
+    QVBoxLayout *buttonLayout     = nullptr;
+    QVBoxLayout *deviceDataLayout = nullptr;
+    QVBoxLayout *consoleLayout    = nullptr;
 
-    // defining line edits:
+    // defining line edits for tuning:
     QLineEdit *correctionEdit = nullptr;
     QLineEdit *pCoeffEdit     = nullptr;
     QLineEdit *iCoeffEdit     = nullptr;
     QLineEdit *dCoeffEdit     = nullptr;
+
+    // defining line edits for device and software data
+    QLineEdit *deviceNumberEdit    = nullptr;
+    QLineEdit *softwareVersionEdit = nullptr;
+    QLineEdit *checksumEdit        = nullptr;
 
     // defining console:
     QPlainTextEdit *console = nullptr;

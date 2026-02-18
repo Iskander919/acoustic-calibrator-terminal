@@ -39,8 +39,10 @@ void MainWindow::setupUi() {
 
     setupButtonLayout();
     setupConsoleLayout();
+    setupDeviceDataLayout();
 
     mainLayout -> addLayout(buttonLayout);
+    mainLayout -> addLayout(deviceDataLayout);
     mainLayout -> addLayout(consoleLayout);
 
 }
@@ -81,6 +83,9 @@ void MainWindow::setupConnections() {
 
     // connecting changing mode selector signal
     connect(modeSelector, &QComboBox::currentTextChanged, this, &MainWindow::modeSelectorChanged);
+
+    // connecting signal of changing text in device ID line edit
+    connect(deviceNumberEdit, &QLineEdit::textChanged, this, &MainWindow::updateWriteIdButton);
 
 }
 
@@ -128,6 +133,56 @@ void MainWindow::setupButtonLayout() {
     eraseMemoryButton -> setEnabled(false);
     setModeButton94   -> setEnabled(false);
     setModeButton114  -> setEnabled(false);
+
+}
+
+/**
+ * @brief MainWindow::setupDeviceDataLayout
+ * @param none
+ * @return none
+ */
+void MainWindow::setupDeviceDataLayout() {
+
+    deviceDataLayout = new QVBoxLayout();
+
+    // defining labels for data info:
+    QLabel *deviceNumberLabel    = new QLabel(this);
+    QLabel *softwareVersionLabel = new QLabel(this);
+    QLabel *checksumLabel        = new QLabel(this);
+
+    // defining buttons:
+    readDeviceDataButton         = new QPushButton(DEVICE_DATA_BUTTN_LABEL);
+
+    writeDeviceDataButton        = new QPushButton(DEVICE_DATA_WRITE_BUTTON_LABEL);
+    writeDeviceDataButton -> setEnabled(false);
+
+    // defining line edits for data info:
+    deviceNumberEdit    = new QLineEdit(this);
+
+    softwareVersionEdit = new QLineEdit(this);
+    softwareVersionEdit -> setReadOnly(true);
+
+    checksumEdit        = new QLineEdit(this);
+    checksumEdit -> setReadOnly(true);
+
+    deviceNumberLabel    -> setText(DEVICE_NUMBER_LABEL);
+    softwareVersionLabel -> setText(SOFTWARE_VERSION_LABEL);
+    checksumLabel        -> setText(CHECKSUM_LABEL);
+
+    // adding widgets to layout
+    deviceDataLayout -> addWidget(deviceNumberLabel);
+    deviceDataLayout -> addWidget(deviceNumberEdit);
+
+    deviceDataLayout -> addWidget(softwareVersionLabel);
+    deviceDataLayout -> addWidget(softwareVersionEdit);
+
+    deviceDataLayout -> addWidget(checksumLabel);
+    deviceDataLayout -> addWidget(checksumEdit);
+
+    deviceDataLayout -> addWidget(readDeviceDataButton);
+    deviceDataLayout -> addWidget(writeDeviceDataButton);
+
+    deviceDataLayout -> addStretch();
 
 }
 
@@ -393,5 +448,34 @@ void MainWindow::infoClicked() {
 
     infoWindow = new InfoWindow(this);
     infoWindow -> show();
+
+}
+
+/**
+ * @brief MainWindow::updateWriteIdButton
+ */
+void MainWindow::updateWriteIdButton() {
+
+    bool idEditEmpty = deviceNumberEdit -> text().isEmpty();
+
+    writeDeviceDataButton -> setEnabled(!idEditEmpty);
+
+}
+
+/**
+ * @brief MainWindow::deviceIdTextChanged
+ */
+void MainWindow::deviceIdTextChanged() {
+
+    updateWriteIdButton();
+
+}
+
+/**
+ * @brief MainWindow::readDeviceDataClicked
+ */
+void MainWindow::readDeviceDataClicked() {
+
+    serialDriver -> sendCommand(0, 0, 0, 0, 0, READ_DEVICE_DATA_COMMAND);
 
 }
