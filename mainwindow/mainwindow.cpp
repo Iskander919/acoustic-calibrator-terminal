@@ -7,11 +7,10 @@
  */
 MainWindow::MainWindow(QWidget *parent) : QMainWindow{parent} {
 
+    serialDriver = new SerialDriver;
 
     setupUi();
     setupConnections();
-
-    serial = new QSerialPort();
 
     updatePortsList();
 
@@ -86,6 +85,12 @@ void MainWindow::setupConnections() {
 
     // connecting signal of changing text in device ID line edit
     connect(deviceNumberEdit, &QLineEdit::textChanged, this, &MainWindow::updateWriteIdButton);
+
+    // connecting signal of emergence of new bytes in serial buffer
+    connect(serialDriver -> SerialPortObj, &QSerialPort::readyRead, this, &MainWindow::convertReadBytesToStrings);
+
+    // connecting Read button
+    connect(readDeviceDataButton, &QPushButton::clicked, this, &MainWindow::readDeviceDataClicked);
 
 }
 
@@ -254,8 +259,6 @@ void MainWindow::updatePortsList() {
  * @return none
  */
 void MainWindow::connectClicked() {
-
-    serialDriver = new SerialDriver;
 
     // getting COM Port number from comPortSelector(ComboBox) and opening it
     serialDriver -> openSerialPort(this -> comPortSelector -> currentText());
@@ -478,4 +481,38 @@ void MainWindow::readDeviceDataClicked() {
 
     serialDriver -> sendCommand(0, 0, 0, 0, 0, READ_DEVICE_DATA_COMMAND);
 
+}
+
+/**
+ * @brief MainWindow::converReadBytesToStrings
+ * @param bytes
+ */
+void MainWindow::convertReadBytesToStrings() {
+
+    serialDriver -> readBytes();
+
+    int size = serialDriver -> getReceiveBufferSize();
+
+    qDebug() << size;
+
+    if (size < 20) return;
+
+    qDebug() << "Slot called";
+
+    serialDriver -> parseBytes(&softwareVersion, &deviceId);
+    serialDriver -> clearInputBuffer();
+
+    updateDeviceInfoLines();
+
+}
+
+/**
+ * @brief MainWindow::updateDeviceInfoLines
+ */
+void MainWindow::updateDeviceInfoLines() {
+
+    deviceNumberEdit -> setText(deviceId);
+    softwareVersionEdit -> setText(softwareVersion);
+
+    // разобраться с тем, что при чтении версии и sn после смены режима их значения неверные
 }

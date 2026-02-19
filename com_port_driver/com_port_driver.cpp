@@ -8,6 +8,8 @@ SerialDriver::SerialDriver() {
     this -> SerialPortObj = new QSerialPort();
     this -> ok = false;
 
+    receivedBytes = {};
+
 }
 
 /**
@@ -48,7 +50,7 @@ void SerialDriver::openSerialPort(const QString &portName) {
  * @param dCoeff
  * @param corr
  * @param ref
- * @return
+ * @return none
  */
 std::array<uint8_t, 20> SerialDriver::combineArray(const float pCoeff, const float iCoeff, const float dCoeff,
                                      const float corr, const uint32_t ref) {
@@ -129,13 +131,14 @@ void SerialDriver::sendCommand(const float pCoeff, const float iCoeff, const flo
 
     for(int i = 0; i < qToSend.size(); i++) {
 
-        std::cout << std::hex << std::setw(3) << static_cast<int>(qToSend[i]) << " ";
+        std::cout << std::hex << std::setw(2) << static_cast<int>(qToSend[i]) << " ";
 
     }
 
+    std::cout << std::endl;
 
     // writing data to serial port:
-    qint64 bytesWritten = SerialPortObj->write(qToSend);
+    qint64 bytesWritten = SerialPortObj -> write(qToSend);
 
     if(SerialPortObj -> waitForBytesWritten(500)) {
 
@@ -157,5 +160,94 @@ void SerialDriver::sendCommand(const float pCoeff, const float iCoeff, const flo
 bool SerialDriver::openedSuccesfully() {
 
     return this -> ok;
+
+}
+
+/**
+ * @brief SerialDriver::readBytes
+ * @param none
+ * @return std::array<uint8_t, 20> result
+ */
+void SerialDriver::readBytes() {
+
+    std::array<uint8_t, 20> result = {};
+
+    QByteArray serialData = SerialPortObj -> readAll();
+
+    this -> receivedBytes = serialData;
+
+}
+
+/**
+ * @brief parseBytes
+ * @param pSoftwareVersion
+ * @param pDeviceId
+ */
+void SerialDriver::parseBytes(QString *pSoftwareVersion, QString *pDeviceId) {
+
+    QByteArray bytes = this -> receivedBytes;
+
+    std::array<uint8_t, 4> softVerArray = {};
+    std::array<uint8_t, 4> deviceIdArray = {};
+
+    for (int i = 0; i < softVerArray.size(); i++) {
+
+        softVerArray[i] = bytes[16 + i];
+
+    }
+
+    for (int i = 0; i < deviceIdArray.size(); i++) {
+
+        deviceIdArray[i] = bytes[15 - i];
+
+    }
+
+
+    /*----------------------------------------*/
+    for (int i = 0; i < softVerArray.size(); i++) {
+
+        std::cout << std::hex << std::setw(3) << static_cast<int>(softVerArray[i]) << " ";
+
+    }
+
+    std::cout << std::endl;
+
+    for (int i = 0; i < deviceIdArray.size(); i++) {
+
+        std::cout << std::hex << std::setw(3) << static_cast<int>(deviceIdArray[i]) << " ";
+
+    }
+    /*----------------------------------------*/
+
+    // building deviceId and version from bytes
+    uint32_t deviceId = std::bit_cast<uint32_t>(deviceIdArray);
+    float    version  = std::bit_cast<float>(softVerArray);
+
+    *pDeviceId        = QString::number(deviceId);
+    *pSoftwareVersion = QString::number(version, 'f', 1);
+
+    /*----------------------------------------*/
+    qDebug() << "version: "  << *pSoftwareVersion;
+    qDebug() << "deviceId: " << *pDeviceId;
+    /*----------------------------------------*/
+
+ }
+
+/**
+ * @brief SerialDriver::getReceiveBufferSize
+ * @return
+ */
+int SerialDriver::getReceiveBufferSize() {
+
+    return this -> receivedBytes.size();
+
+}
+
+/**
+ * @brief SerialDriver::clearInputBuffer
+ */
+void SerialDriver::clearInputBuffer() {
+
+    SerialPortObj -> clear(QSerialPort::Input);
 
 }

@@ -1,6 +1,7 @@
 #ifndef COM_PORT_DRIVER_H
 #define COM_PORT_DRIVER_H
 
+#include <QWidget>
 #include <QDebug>
 #include <QSerialPort>
 #include <QSerialPortInfo>
@@ -31,9 +32,20 @@ public:
                                                                                   const float corr,
                                                                                   const uint32_t ref);
 
-private:
+    void readBytes();
+
+    void parseBytes(QString *pSoftwareVersion, QString *pDeviceId);
+
+    int getReceiveBufferSize();
 
     QSerialPort *SerialPortObj;
+
+    QByteArray receivedBytes;
+
+    void clearInputBuffer();
+
+
+private:
 
     // array that stores bytes to send
     std::array<uint8_t, 20> data;

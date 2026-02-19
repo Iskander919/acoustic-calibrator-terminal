@@ -68,6 +68,10 @@ private:
 
     bool isFloat(QString *text);
 
+    void convertReadBytesToStrings();
+
+    void updateDeviceInfoLines(); // update line edits with device id and software version
+
     // declaring slots:
     void connectClicked();  // "Connect" clicked handler
     void sendDataClicked(); // "Send" clicked handler
@@ -122,9 +126,14 @@ private:
     // creating SerialDriver object:
     SerialDriver *serialDriver = nullptr;
 
+    // validator for line edits
     QDoubleValidator *pidValidator = nullptr;
 
     InfoWindow *infoWindow = nullptr;
+
+    // strings to show in line edits
+    QString softwareVersion;
+    QString deviceId;
 
 };
 
