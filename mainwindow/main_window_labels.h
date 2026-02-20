@@ -32,8 +32,11 @@
 #define SWITCHED_TO_114_LABEL    "Переключен в режим 114 дБ"
 #define EEPROM_94_LABEL          "Данные записаны в EEPROM для режима 94 дБ"
 #define EEPROM_114_LABEL         "Данные записаны в EEPROM для режима 114 дБ"
+#define ID_WAS_WRITTEN           "Серийный номер записан в EEPROM"
 
 #define NUMERIC_WARNING          "Все поля должны иметь числовое значение"
+#define ID_NUMERIC_WARNING       "Серийный номер должен иметь целочисленное значение"
+
 
 
 // dimensions:

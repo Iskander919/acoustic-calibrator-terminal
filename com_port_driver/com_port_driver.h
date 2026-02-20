@@ -44,6 +44,10 @@ public:
 
     void clearInputBuffer();
 
+    void clearOutputBuffer();
+
+    uint32_t getChecksum();
+
 
 private:
 
@@ -55,6 +59,11 @@ private:
 
     // variable that stores status of COM Port (whether opening was succesful)
     bool ok;
+
+    // variable that stores checksum
+    uint32_t checksum;
+
+    uint32_t calculateChecksum(QByteArray arrayToSend);
 
 };
 

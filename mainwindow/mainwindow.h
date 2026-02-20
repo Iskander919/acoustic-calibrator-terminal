@@ -72,6 +72,8 @@ private:
 
     void updateDeviceInfoLines(); // update line edits with device id and software version
 
+    void updateChecksumLineEdit();
+
     // declaring slots:
     void connectClicked();  // "Connect" clicked handler
     void sendDataClicked(); // "Send" clicked handler

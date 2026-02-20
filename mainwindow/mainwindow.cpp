@@ -92,6 +92,9 @@ void MainWindow::setupConnections() {
     // connecting Read button
     connect(readDeviceDataButton, &QPushButton::clicked, this, &MainWindow::readDeviceDataClicked);
 
+    // connecting Write id button
+    connect(writeDeviceDataButton, &QPushButton::clicked, this, &MainWindow::writeIdClicked);
+
 }
 
 /**
@@ -187,6 +190,9 @@ void MainWindow::setupDeviceDataLayout() {
     deviceDataLayout -> addWidget(readDeviceDataButton);
     deviceDataLayout -> addWidget(writeDeviceDataButton);
 
+    readDeviceDataButton  -> setEnabled(false);
+    writeDeviceDataButton -> setEnabled(false);
+
     deviceDataLayout -> addStretch();
 
 }
@@ -274,6 +280,9 @@ void MainWindow::connectClicked() {
         setModeButton114  -> setEnabled(true);
         writeMemoryButton -> setEnabled(true);
 
+        readDeviceDataButton  -> setEnabled(true);
+        writeDeviceDataButton -> setEnabled(true);
+
     }
 
     //debug----------------------------------------------------------------------//
@@ -326,6 +335,8 @@ void MainWindow::sendDataClicked() {
         console -> appendPlainText(DATA_SENT_TO_RAM);
 
     }
+
+    updateChecksumLineEdit();
 
 }
 
@@ -483,6 +494,31 @@ void MainWindow::readDeviceDataClicked() {
 
 }
 
+void MainWindow::writeIdClicked() {
+
+    uint32_t deviceIdToWrite = 0;
+    bool conversionOk = false;
+
+    deviceIdToWrite = static_cast<uint32_t>(deviceNumberEdit -> text().toUInt(&conversionOk));
+
+    if (conversionOk) {
+
+
+        serialDriver -> sendCommand(0, 0, 0, 0, deviceIdToWrite, WRITE_DEVICE_ID_COMMAND);
+        console -> appendPlainText(ID_WAS_WRITTEN);
+
+    }
+
+    else {
+
+        console -> appendPlainText(ID_NUMERIC_WARNING);
+
+    }
+
+    updateChecksumLineEdit();
+
+}
+
 /**
  * @brief MainWindow::converReadBytesToStrings
  * @param bytes
@@ -511,8 +547,16 @@ void MainWindow::convertReadBytesToStrings() {
  */
 void MainWindow::updateDeviceInfoLines() {
 
-    deviceNumberEdit -> setText(deviceId);
+    deviceNumberEdit    -> setText(deviceId);
     softwareVersionEdit -> setText(softwareVersion);
 
-    // разобраться с тем, что при чтении версии и sn после смены режима их значения неверные
+}
+
+/**
+ * @brief MainWindow::updateChecksumLineEdit
+ */
+void MainWindow::updateChecksumLineEdit() {
+
+    checksumEdit -> setText(QString::number(serialDriver -> getChecksum()));
+
 }

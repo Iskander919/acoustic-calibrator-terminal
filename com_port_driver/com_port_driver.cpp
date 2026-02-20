@@ -9,6 +9,7 @@ SerialDriver::SerialDriver() {
     this -> ok = false;
 
     receivedBytes = {};
+    checksum  = 0;
 
 }
 
@@ -151,6 +152,11 @@ void SerialDriver::sendCommand(const float pCoeff, const float iCoeff, const flo
         qDebug() << "Failed to write to serial port" << SerialPortObj -> errorString();
 
     }
+
+    // calculating checksum
+    this -> checksum = calculateChecksum(qToSend);
+
+    clearOutputBuffer();
 }
 
 /**
@@ -249,5 +255,43 @@ int SerialDriver::getReceiveBufferSize() {
 void SerialDriver::clearInputBuffer() {
 
     SerialPortObj -> clear(QSerialPort::Input);
+
+}
+
+/**
+ * @brief SerialDriver::clearOutputBuffer
+ */
+void SerialDriver::clearOutputBuffer() {
+
+    SerialPortObj -> clear(QSerialPort::Output);
+
+}
+
+/**
+ * @brief SerialDriver::calculateChecksum
+ * @param arrayToSend
+ * @return result
+ */
+uint32_t SerialDriver::calculateChecksum(QByteArray arrayToSend) {
+
+    uint32_t result = 0;
+
+    for (int i = 0; i < arrayToSend.size(); i++) {
+
+        result += arrayToSend[i];
+
+    }
+
+    return result;
+
+}
+
+/**
+ * @brief SerialDriver::getChecksum
+ * @return this -> checksum
+ */
+uint32_t SerialDriver::getChecksum() {
+
+    return this -> checksum;
 
 }
