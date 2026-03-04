@@ -33,6 +33,7 @@
 #define EEPROM_94_LABEL          "Данные записаны в EEPROM для режима 94 дБ"
 #define EEPROM_114_LABEL         "Данные записаны в EEPROM для режима 114 дБ"
 #define ID_WAS_WRITTEN           "Серийный номер записан в EEPROM"
+#define DEVICE_CHECKSUM_LABEL    "Контрольная сумма с устройства: "
 
 #define NUMERIC_WARNING          "Все поля должны иметь числовое значение"
 #define ID_NUMERIC_WARNING       "Серийный номер должен иметь целочисленное значение"

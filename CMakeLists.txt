@@ -23,6 +23,7 @@ add_executable(acoustic-calibrator-terminal
   com_port_driver/com_port_driver.h
   infowindow/infowindow.cpp
   infowindow/infowindow.h
+  infowindow/infotext.h
 )
 target_link_libraries(acoustic-calibrator-terminal PRIVATE Qt${QT_VERSION_MAJOR}::Core)
 target_link_libraries(acoustic-calibrator-terminal PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

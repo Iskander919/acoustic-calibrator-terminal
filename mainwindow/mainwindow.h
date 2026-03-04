@@ -137,6 +137,8 @@ private:
     QString softwareVersion;
     QString deviceId;
 
+    QString checksumDevice;
+
 };
 
 #endif // MAINWINDOW_H

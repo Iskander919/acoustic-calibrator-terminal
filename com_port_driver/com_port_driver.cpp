@@ -154,9 +154,10 @@ void SerialDriver::sendCommand(const float pCoeff, const float iCoeff, const flo
     }
 
     // calculating checksum
-    this -> checksum = calculateChecksum(qToSend);
+    this -> checksum = calculateChecksum(toSend);
 
     clearOutputBuffer();
+
 }
 
 /**
@@ -207,7 +208,6 @@ void SerialDriver::parseBytes(QString *pSoftwareVersion, QString *pDeviceId) {
         deviceIdArray[i] = bytes[15 - i];
 
     }
-
 
     /*----------------------------------------*/
     for (int i = 0; i < softVerArray.size(); i++) {
@@ -282,6 +282,28 @@ uint32_t SerialDriver::calculateChecksum(QByteArray arrayToSend) {
 
     }
 
+    QString checksum = QString::number(result, 16);
+    qDebug() << checksum;
+
+    return result;
+
+}
+
+/**
+ * @brief SerialDriver::calculateChecksum
+ * @param arrayToSend
+ * @return result
+ */
+uint32_t SerialDriver::calculateChecksum(std::array<uint8_t, 20> arrayToSend) {
+
+    uint32_t result = 0;
+
+    for(int i = 0; i < arrayToSend.size(); i++) {
+
+        result += arrayToSend[i];
+
+    }
+
     return result;
 
 }
@@ -295,3 +317,37 @@ uint32_t SerialDriver::getChecksum() {
     return this -> checksum;
 
 }
+
+/**
+ * @brief SerialDriver::requestChecksumFromDevice
+ */
+void SerialDriver::requestChecksumFromDevice() {
+
+    // sending command to get checksum from device
+    sendCommand(0, 0, 0, 0, 0, REQUEST_CHECKSUM_COMMAND);
+
+}
+
+uint32_t SerialDriver::getChecksumFromArray() {
+
+    QByteArray bytes = this -> receivedBytes;
+    uint32_t result = 0;
+    std::array<uint8_t, 4> checksumBytes = {};
+
+    // getting bytes 8-11 from array:
+    for(int i = 0; i < 4; i++) {
+
+        checksumBytes[i] = bytes[11 - i];
+
+    }
+
+    result = std::bit_cast<uint32_t>(checksumBytes);
+
+    return result;
+
+}
+
+
+
+
+

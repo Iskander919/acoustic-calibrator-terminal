@@ -338,6 +338,8 @@ void MainWindow::sendDataClicked() {
 
     updateChecksumLineEdit();
 
+    serialDriver -> requestChecksumFromDevice();
+
 }
 
 /**
@@ -516,6 +518,7 @@ void MainWindow::writeIdClicked() {
     }
 
     updateChecksumLineEdit();
+    //serialDriver -> requestChecksumFromDevice();
 
 }
 
@@ -532,6 +535,22 @@ void MainWindow::convertReadBytesToStrings() {
     qDebug() << size;
 
     if (size < 20) return;
+
+    // checking if checksum was got (receivedBytes[0] = 0x01)
+    if(serialDriver -> receivedBytes[0] == 0x01) {
+
+        qDebug() << "Checksum slot callsed";
+        qDebug() << "Checksum:";
+        qDebug() << serialDriver -> receivedBytes.toHex();
+
+        checksumDevice = QString::number(serialDriver -> getChecksumFromArray(), 16);
+
+        console -> appendPlainText(DEVICE_CHECKSUM_LABEL);
+        console -> appendPlainText(checksumDevice);
+
+        return;
+
+    }
 
     qDebug() << "Slot called";
 
@@ -557,6 +576,6 @@ void MainWindow::updateDeviceInfoLines() {
  */
 void MainWindow::updateChecksumLineEdit() {
 
-    checksumEdit -> setText(QString::number(serialDriver -> getChecksum()));
+    checksumEdit -> setText(QString::number(serialDriver -> getChecksum(), 16));
 
 }

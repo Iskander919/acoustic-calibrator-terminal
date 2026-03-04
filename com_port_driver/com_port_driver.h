@@ -13,6 +13,7 @@
 #include <iostream>
 
 #define BAUD_RATE QSerialPort::BaudRate::Baud115200
+#define REQUEST_CHECKSUM_COMMAND 0x0C
 
 class SerialDriver {
 
@@ -48,6 +49,10 @@ public:
 
     uint32_t getChecksum();
 
+    void requestChecksumFromDevice();
+
+    uint32_t getChecksumFromArray();
+
 
 private:
 
@@ -64,6 +69,8 @@ private:
     uint32_t checksum;
 
     uint32_t calculateChecksum(QByteArray arrayToSend);
+
+    uint32_t calculateChecksum(std::array<uint8_t, 20> arrayToSend);
 
 };
 

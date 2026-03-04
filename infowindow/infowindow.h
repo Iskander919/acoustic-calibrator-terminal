@@ -7,9 +7,11 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include "infotext.h"
+
 #define CLOSE_INFO_BUTTON_LABEL "Закрыть"
 
-#define TEXT_INFO "Info"
+//#define TEXT_INFO "Info"
 
 #define INFO_WIDTH  500
 #define INFO_HEIGHT 500
