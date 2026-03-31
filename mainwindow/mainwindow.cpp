@@ -112,7 +112,7 @@ void MainWindow::setupButtonLayout() {
     setModeButton114    = new QPushButton(SWITCH_TO_114_BTN_LABEL);
     setCoeffsButton     = new QPushButton(SET_COEFFS_BUTTON_LABEL);
     writeMemoryButton   = new QPushButton(WRITE_MEM_BUTTON_LABEL);
-    eraseMemoryButton   = new QPushButton(ERASE_MEM_BUTTON_LABEL);
+    // eraseMemoryButton   = new QPushButton(ERASE_MEM_BUTTON_LABEL);
     infoButton          = new QPushButton(INFO_BUTTON_LABEL);
     closeButton         = new QPushButton(CLOSE_BUTTON_LABEL);
 
@@ -132,13 +132,13 @@ void MainWindow::setupButtonLayout() {
     buttonLayout -> addWidget(setModeButton114);
     buttonLayout -> addWidget(setCoeffsButton);
     buttonLayout -> addWidget(writeMemoryButton);
-    buttonLayout -> addWidget(eraseMemoryButton);
+    // buttonLayout -> addWidget(eraseMemoryButton);
     buttonLayout -> addWidget(infoButton);
     buttonLayout -> addWidget(closeButton);
 
     setCoeffsButton   -> setEnabled(false);
     writeMemoryButton -> setEnabled(false);
-    eraseMemoryButton -> setEnabled(false);
+    // eraseMemoryButton -> setEnabled(false);
     setModeButton94   -> setEnabled(false);
     setModeButton114  -> setEnabled(false);
 
@@ -407,6 +407,11 @@ void MainWindow::writeMemory() {
 
 }
 
+/**
+ * @brief MainWindow::isFloat
+ * @param text
+ * @return
+ */
 bool MainWindow::isFloat(QString *text) {
 
     pidValidator = new QDoubleValidator(-1.0, 1.0, 32, this);
@@ -523,12 +528,14 @@ void MainWindow::writeIdClicked() {
 }
 
 /**
- * @brief MainWindow::converReadBytesToStrings
+ * @brief MainWindow::convertReadBytesToStrings
  * @param bytes
  */
 void MainWindow::convertReadBytesToStrings() {
 
     serialDriver -> readBytes();
+
+    QThread::msleep(100);
 
     int size = serialDriver -> getReceiveBufferSize();
 

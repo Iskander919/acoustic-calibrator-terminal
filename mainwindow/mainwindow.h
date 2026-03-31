@@ -21,6 +21,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QTimer>
+#include <QThread>
 #include <QValidator>
 #include <QVBoxLayout>
 
@@ -37,7 +38,7 @@ public:
     QPushButton *setConnectionButton = nullptr;
     QPushButton *setModeButton94     = nullptr;
     QPushButton *setModeButton114    = nullptr;
-    QPushButton *eraseMemoryButton   = nullptr;
+    // QPushButton *eraseMemoryButton   = nullptr;
     QPushButton *writeMemoryButton   = nullptr;
     QPushButton *setCoeffsButton     = nullptr;
     QPushButton *infoButton          = nullptr;
