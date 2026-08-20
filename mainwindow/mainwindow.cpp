@@ -215,7 +215,7 @@ void MainWindow::setupConsoleLayout() {
 
     console -> setReadOnly(true);
 
-    correctionEdit = new QLineEdit(BIAS_DEFAULT);
+    correctionEdit = new QLineEdit(MODE_94_REF);
     pCoeffEdit     = new QLineEdit(P_DEFAULT);
     iCoeffEdit     = new QLineEdit(I_DEFAULT);
     dCoeffEdit     = new QLineEdit(D_DEFAULT);
@@ -274,7 +274,44 @@ void MainWindow::connectClicked() {
 
         console -> appendPlainText(CONNECTION_SUCCESS_LABEL + (this -> comPortSelector -> currentText()));
 
-        // enbaling buttons after successful connection
+        serialDriver -> sendHandshake();
+
+        QThread::msleep(50);
+
+        #if (DEBUG_FACTOR == 0)
+        // handshake was got
+        if(serialDriver -> receivedBytes[0] == 0x0D) {
+
+            console -> appendPlainText(HANDSHAKE_SUCCESS_LABEL);
+            this -> deviceConnectionEstablished = true;
+
+        }
+
+        else {
+
+            console -> appendPlainText(HANDSHAKE_FAIL_LABEL);
+
+        }
+
+        if (this -> deviceConnectionEstablished) {
+
+            // enabling buttons after successful connection
+            setCoeffsButton   -> setEnabled(true);
+            setModeButton94   -> setEnabled(true);
+            setModeButton114  -> setEnabled(true);
+            writeMemoryButton -> setEnabled(true);
+
+            readDeviceDataButton  -> setEnabled(true);
+            writeDeviceDataButton -> setEnabled(true);
+
+        }
+
+        else
+            return;
+
+        #endif
+
+        // enabling buttons after successful connection
         setCoeffsButton   -> setEnabled(true);
         setModeButton94   -> setEnabled(true);
         setModeButton114  -> setEnabled(true);
@@ -285,6 +322,7 @@ void MainWindow::connectClicked() {
 
     }
 
+    /*
     //debug----------------------------------------------------------------------//
     std::array<uint8_t, 20> combined = serialDriver -> combineArray(0.00001, 0.0000015, 0.00001, 0.000245, 3500);
     for(int i = 0; i < 20; i++) {
@@ -296,6 +334,7 @@ void MainWindow::connectClicked() {
     std::cout << std::endl;
 
     //---------------------------------------------------------------------------//
+    */
 
 }
 
@@ -311,7 +350,7 @@ void MainWindow::sendDataClicked() {
     float pToSend = (this -> pCoeffEdit -> text()).toFloat(&okP);
     float iToSend = (this -> iCoeffEdit -> text()).toFloat(&okI);
     float dToSend = (this -> dCoeffEdit -> text()).toFloat(&okD);
-    float correctionToSend = (this -> correctionEdit -> text()).toFloat(&okB);
+    uint32_t correctionToSend = (this -> correctionEdit -> text()).toFloat(&okB); // is level (which is 130/1400 by default)
 
     bool ok = okP & okI & okD &okB;
 
@@ -324,14 +363,14 @@ void MainWindow::sendDataClicked() {
 
     if (modeSelector -> currentText() == MODE_94_LABEL) {
 
-        serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, MODE_94_REF, WRITE_DATA_TO_RAM_COMMAND_94);
+        serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, 0, WRITE_DATA_TO_RAM_COMMAND_94);
         console -> appendPlainText(DATA_SENT_TO_RAM);
 
     }
 
     else {
 
-        serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, MODE_114_REF, WRITE_DATA_TO_RAM_COMMAND_114);
+        serialDriver -> sendCommand(pToSend, iToSend, dToSend, correctionToSend, 0, WRITE_DATA_TO_RAM_COMMAND_114);
         console -> appendPlainText(DATA_SENT_TO_RAM);
 
     }
@@ -440,7 +479,7 @@ void MainWindow::modeSelectorChanged() {
 
     if (modeSelector -> currentText() == MODE_94_LABEL) {
 
-        correctionEdit -> setText(BIAS_DEFAULT);
+        correctionEdit -> setText(MODE_94_REF);
         pCoeffEdit     -> setText(P_DEFAULT);
         iCoeffEdit     -> setText(I_DEFAULT);
         dCoeffEdit     -> setText(D_DEFAULT);
@@ -449,7 +488,7 @@ void MainWindow::modeSelectorChanged() {
 
     else if (modeSelector -> currentText() == MODE_114_LABEL) {
 
-        correctionEdit -> setText(BIAS_DEFAULT_114);
+        correctionEdit -> setText(MODE_114_REF);
         pCoeffEdit     -> setText(P_DEFAULT_114);
         iCoeffEdit     -> setText(I_DEFAULT_114);
         dCoeffEdit     -> setText(D_DEFAULT_114);
@@ -510,7 +549,6 @@ void MainWindow::writeIdClicked() {
 
     if (conversionOk) {
 
-
         serialDriver -> sendCommand(0, 0, 0, 0, deviceIdToWrite, WRITE_DEVICE_ID_COMMAND);
         console -> appendPlainText(ID_WAS_WRITTEN);
 
@@ -539,14 +577,14 @@ void MainWindow::convertReadBytesToStrings() {
 
     int size = serialDriver -> getReceiveBufferSize();
 
-    qDebug() << size;
+    qDebug() << "Read buffer size: "<< size;
 
     if (size < 20) return;
 
     // checking if checksum was got (receivedBytes[0] = 0x01)
     if(serialDriver -> receivedBytes[0] == 0x01) {
 
-        qDebug() << "Checksum slot callsed";
+        qDebug() << "Checksum slot called";
         qDebug() << "Checksum:";
         qDebug() << serialDriver -> receivedBytes.toHex();
 
@@ -559,11 +597,21 @@ void MainWindow::convertReadBytesToStrings() {
 
     }
 
-    qDebug() << "Slot called";
+    if(serialDriver -> receivedBytes[0] == 0x0D) {
+
+        qDebug() << "Handshake got";
+
+        this -> deviceConnectionEstablished = true;
+
+
+    }
+
+    qDebug() << "Slot called: convert bytes to strings";
 
     serialDriver -> parseBytes(&softwareVersion, &deviceId);
     serialDriver -> clearInputBuffer();
 
+    // device data (device ID and software version were got). Update this fileds
     updateDeviceInfoLines();
 
 }

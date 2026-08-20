@@ -141,7 +141,7 @@ void SerialDriver::sendCommand(const float pCoeff, const float iCoeff, const flo
     // writing data to serial port:
     qint64 bytesWritten = SerialPortObj -> write(qToSend);
 
-    if(SerialPortObj -> waitForBytesWritten(500)) {
+    if(SerialPortObj -> waitForBytesWritten(10000)) {
 
         qDebug() << "Bytes written successfully";
 
@@ -328,6 +328,10 @@ void SerialDriver::requestChecksumFromDevice() {
 
 }
 
+/**
+ * @brief SerialDriver::getChecksumFromArray
+ * @return
+ */
 uint32_t SerialDriver::getChecksumFromArray() {
 
     QByteArray bytes = this -> receivedBytes;
@@ -347,7 +351,12 @@ uint32_t SerialDriver::getChecksumFromArray() {
 
 }
 
+/**
+ * @brief SerialDriver::sendHandshake function that sends handhshake command to a device. It is executed right after
+ *        connection to serial port
+ */
+void SerialDriver::sendHandshake() {
 
+    sendCommand(0, 0, 0, 0,0, HANDSHAKE_COMMAND);
 
-
-
+}

@@ -14,6 +14,7 @@
 
 #define BAUD_RATE QSerialPort::BaudRate::Baud115200
 #define REQUEST_CHECKSUM_COMMAND 0x0C
+#define HANDSHAKE_COMMAND        0x0D
 
 class SerialDriver {
 
@@ -52,6 +53,8 @@ public:
     void requestChecksumFromDevice();
 
     uint32_t getChecksumFromArray();
+
+    void sendHandshake();
 
 
 private:

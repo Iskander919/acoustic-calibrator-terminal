@@ -30,10 +30,12 @@
 #define DATA_SENT_TO_RAM         "Данные записаны в RAM"
 #define SWITCHED_TO_94_LABEL     "Переключен в режим 94 дБ"
 #define SWITCHED_TO_114_LABEL    "Переключен в режим 114 дБ"
-#define EEPROM_94_LABEL          "Данные записаны в EEPROM для режима 94 дБ"
-#define EEPROM_114_LABEL         "Данные записаны в EEPROM для режима 114 дБ"
-#define ID_WAS_WRITTEN           "Серийный номер записан в EEPROM"
+#define EEPROM_94_LABEL          "Данные записаны во FLASH для режима 94 дБ"
+#define EEPROM_114_LABEL         "Данные записаны во FLASH для режима 114 дБ"
+#define ID_WAS_WRITTEN           "Серийный номер записан во FLASH"
 #define DEVICE_CHECKSUM_LABEL    "Контрольная сумма с устройства: "
+#define HANDSHAKE_SUCCESS_LABEL  "Соединение с прибором установлено"
+#define HANDSHAKE_FAIL_LABEL     "Не удалось установить соединение с прибором"
 
 #define NUMERIC_WARNING          "Все поля должны иметь числовое значение"
 #define ID_NUMERIC_WARNING       "Серийный номер должен иметь целочисленное значение"
@@ -59,18 +61,18 @@
 #define READ_DEVICE_DATA_COMMAND      0x0B
 
 // adc refs:
-#define MODE_94_REF  2070
-#define MODE_114_REF 3500
+#define MODE_94_REF  "130"
+#define MODE_114_REF "1400"
 
 // default values for 94 dB:
-#define P_DEFAULT    "0.0000001"
-#define I_DEFAULT    "0.00000002"
-#define D_DEFAULT    "0.00000002"
-#define BIAS_DEFAULT "0.098"
+#define P_DEFAULT    "0.0002"
+#define I_DEFAULT    "0.000006"
+#define D_DEFAULT    "0.000002"
+#define BIAS_DEFAULT "0.0"
 // default values for 114 dB:
-#define P_DEFAULT_114    "0.00001"
-#define I_DEFAULT_114    "0.0000015"
-#define D_DEFAULT_114    "0.00001"
-#define BIAS_DEFAULT_114 "0.000245"
+#define P_DEFAULT_114    "0.00008"
+#define I_DEFAULT_114    "0.000006"
+#define D_DEFAULT_114    "0.000002"
+#define BIAS_DEFAULT_114 "0.0"
 
 #endif // MAIN_WINDOW_LABELS_H

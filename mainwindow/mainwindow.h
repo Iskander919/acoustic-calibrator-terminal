@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#define DEBUG_FACTOR 1 // this factor controls executing of handshake command
+                       // if set as 0, handshake is 0. Otherwise handshake is on.
+
 #include "infowindow.h"
 #include "main_window_labels.h"
 #include "com_port_driver.h"
@@ -51,6 +54,8 @@ public:
     QComboBox *modeSelector          = nullptr;
 
 private:
+
+    bool deviceConnectionEstablished = false;
 
     // ui setup functions:
     void setupUi();
